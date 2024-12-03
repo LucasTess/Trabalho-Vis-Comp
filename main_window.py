@@ -1,13 +1,16 @@
 import sys
 import matplotlib.pyplot as plt
+import numpy as np
 from PyQt5.QtWidgets import QMainWindow, QGridLayout, QLabel, QWidget, QLineEdit, QHBoxLayout, QVBoxLayout, QPushButton,QGroupBox
 from PyQt5.QtGui import QDoubleValidator
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from mpl_toolkits.mplot3d import Axes3D
 from numpy import array
-from move import z_rotation,y_rotation,x_rotation,move
-
-
+from movements import z_rotation,y_rotation,x_rotation,move
+from stl2mesh import Aatrox
+from arrows import draw_arrows
+from coordenadas import base3d, origem3d, cam_origem
+from set_axes import set_axes_equal
 ###### Crie suas funções de translação, rotação, criação de referenciais, plotagem de setas e qualquer outra função que precisar
 
 class MainWindow(QMainWindow):
@@ -220,12 +223,18 @@ class MainWindow(QMainWindow):
         # Criar um objeto FigureCanvas para exibir o gráfico 3D
         self.fig2 = plt.figure()
         self.ax2 = self.fig2.add_subplot(111, projection='3d')
-        
         ##### Falta plotar o seu objeto 3D e os referenciais da câmera e do mundo
-        
+        self.ax2.plot(Aatrox[0,:],Aatrox[1,:],Aatrox[2,:],'r')
+        # desenhando origem
+        self.ax2 = draw_arrows(origem3d,base3d,self.ax2)
+        # desenhando a camera
+        self.ax2 = draw_arrows(cam_origem,base3d,self.ax2)
+        ## Essa função SEMPRE tem  que vir depois de todos plots 
+        set_axes_equal(self.ax2)
+
         self.canvas2 = FigureCanvas(self.fig2)
         canvas_layout.addWidget(self.canvas2)
-
+        
         # Retornar o widget de canvas
         return canvas_widget
 

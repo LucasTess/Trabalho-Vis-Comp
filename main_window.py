@@ -6,13 +6,16 @@ from PyQt5.QtGui import QDoubleValidator
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from mpl_toolkits.mplot3d import Axes3D
 from numpy import array
+from numpy import pi
 from movements import z_rotation,y_rotation,x_rotation,move
 from stl2mesh import Aatrox
 from arrows import draw_arrows
 from coordenadas import base3d, origem3d, cam_origem
 from set_axes import set_axes_equal
-###### Crie suas funções de translação, rotação, criação de referenciais, plotagem de setas e qualquer outra função que precisar
 
+from project2d import projection_2d, generate_intrinsic_params_matrix
+###### Crie suas funções de translação, rotação, criação de referenciais, plotagem de setas e qualquer outra função que precisar
+cam_pos = cam_origem
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -212,7 +215,7 @@ class MainWindow(QMainWindow):
         ##### Falta acertar os limites do eixo Y
         
         ##### Você deverá criar a função de projeção 
-        object_2d = self.projection_2d()
+        object_2d = projection_2d()
 
         ##### Falta plotar o object_2d que retornou da projeção
           
@@ -228,7 +231,8 @@ class MainWindow(QMainWindow):
         # desenhando origem
         self.ax2 = draw_arrows(origem3d,base3d,self.ax2)
         # desenhando a camera
-        self.ax2 = draw_arrows(cam_origem,base3d,self.ax2)
+        self.cam_pos = cam_origem
+        self.ax2 = draw_arrows(self.cam_pos,base3d,self.ax2)
         ## Essa função SEMPRE tem  que vir depois de todos plots 
         set_axes_equal(self.ax2)
 
@@ -240,26 +244,36 @@ class MainWindow(QMainWindow):
 
 
     ##### Você deverá criar as suas funções aqui
-    
-    def update_params_intrinsc(self, line_edits):
+    def update_params_intrinsc(self,line_edits):
         return 
 
     def update_world(self,line_edits):
-        return
+        movs = np.array([int(line_edit.text()) if line_edit.text() != '' else 0 for line_edit in line_edits])
+        print(movs)
+        T = move(movs[0],movs[2],movs[4])
+        Rx = x_rotation(movs[1]*pi/180)
+        Ry = x_rotation(movs[3]*pi/180)
+        Rz = x_rotation(movs[5]*pi/180)
+        M = T@Rz@Ry@Rx
+
+
+
 
     def update_cam(self,line_edits):
+        movs = np.array([int(line_edit.text()) if line_edit.text() != '' else 0 for line_edit in line_edits])
+        print(movs)
+        T = move(movs[0],movs[2],movs[4])
+        Rx = x_rotation(movs[1]*pi/180)
+        Ry = x_rotation(movs[3]*pi/180)
+        Rz = x_rotation(movs[5]*pi/180)
+        M = T@Rz@Ry@Rx
+        self.cam_pos = M @ self.cam_pos
+        self.ax2 = draw_arrows(self.cam_pos,base3d,self.ax2)
+        print("cam_pos:\n",self.cam_pos)
         return 
-    
-    def projection_2d(self):
-        return 
-    
-    def generate_intrinsic_params_matrix(self):
-        return 
-    
 
     def update_canvas(self):
         return 
-    
+
     def reset_canvas(self):
         return
-    

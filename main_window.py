@@ -154,7 +154,7 @@ class MainWindow(QMainWindow):
 
         ##### Você deverá criar, no espaço reservado ao final, a função self.update_world ou outra que você queira 
         # Conectar a função de atualização aos sinais de clique do botão
-        update_button.clicked.connect(lambda: self.update_world(line_edits))
+        update_button.clicked.connect(lambda: self.update_world(line_edits,self.ax2))
 
         # Adicionar os widgets ao layout do widget line_edit_widget
         line_edit_layout.addLayout(grid_layout)
@@ -190,7 +190,7 @@ class MainWindow(QMainWindow):
 
         ##### Você deverá criar, no espaço reservado ao final, a função self.update_cam ou outra que você queira 
         # Conectar a função de atualização aos sinais de clique do botão
-        update_button.clicked.connect(lambda: self.update_cam(line_edits))
+        update_button.clicked.connect(lambda: self.update_cam(line_edits,self.ax2))
 
         # Adicionar os widgets ao layout do widget line_edit_widget
         line_edit_layout.addLayout(grid_layout)
@@ -245,33 +245,35 @@ class MainWindow(QMainWindow):
 
     ##### Você deverá criar as suas funções aqui
     def update_params_intrinsc(self,line_edits):
+        ups = np.array([int(line_edit.text()) if line_edit.text() != '' else 0 for line_edit in line_edits])
         return 
 
-    def update_world(self,line_edits):
+    def update_world(self,line_edits,ax2):
         movs = np.array([int(line_edit.text()) if line_edit.text() != '' else 0 for line_edit in line_edits])
-        print(movs)
+
         T = move(movs[0],movs[2],movs[4])
         Rx = x_rotation(movs[1]*pi/180)
         Ry = x_rotation(movs[3]*pi/180)
         Rz = x_rotation(movs[5]*pi/180)
         M = T@Rz@Ry@Rx
-
-
-
-
-    def update_cam(self,line_edits):
-        movs = np.array([int(line_edit.text()) if line_edit.text() != '' else 0 for line_edit in line_edits])
-        print(movs)
-        T = move(movs[0],movs[2],movs[4])
-        Rx = x_rotation(movs[1]*pi/180)
-        Ry = x_rotation(movs[3]*pi/180)
-        Rz = x_rotation(movs[5]*pi/180)
-        M = T@Rz@Ry@Rx
+        print("M:\n",M)
+        print("cam_pos:\n",self.cam_pos)
         self.cam_pos = M @ self.cam_pos
-        print(cam_pos)
         ax2 = draw_arrows(self.cam_pos[:,3],self.cam_pos[:,0:3],ax2)
         print("cam_pos:\n",self.cam_pos)
         return 
+
+
+    def update_cam(self,line_edits,ax2):
+        movs = np.array([int(line_edit.text()) if line_edit.text() != '' else 0 for line_edit in line_edits])
+        print(movs)
+        T = move(movs[0],movs[2],movs[4])
+        Rx = x_rotation(movs[1]*pi/180)
+        Ry = x_rotation(movs[3]*pi/180)
+        Rz = x_rotation(movs[5]*pi/180)
+        M = T@Rz@Ry@Rx
+        return
+
 
     def update_canvas(self):
         return 

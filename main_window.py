@@ -268,7 +268,8 @@ class MainWindow(QMainWindow):
         Rz = x_rotation(movs[5]*pi/180)
         M = T@Rz@Ry@Rx
         self.cam_pos = M @ self.cam_pos
-        self.ax2 = draw_arrows(self.cam_pos,base3d,self.ax2)
+        print(cam_pos)
+        ax2 = draw_arrows(self.cam_pos[:,3],self.cam_pos[:,0:3],ax2)
         print("cam_pos:\n",self.cam_pos)
         return 
 

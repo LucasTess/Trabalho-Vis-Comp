@@ -15,8 +15,6 @@ from transformations import (cam_rotation, cam_translation, world_rotation,
                              world_translation)
 from utils import Aatrox, base_3d, cam_origem, draw_arrows, origem_3d, set_plot
 
-cam_pos = cam_origem
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()

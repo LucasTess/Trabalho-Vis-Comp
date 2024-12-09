@@ -6,7 +6,8 @@ Esse programa simula o comportamento de uma câmera em um ambiente tridimensiona
 
 - Python 3.11 ou superior.
 - `pip` para gerenciar pacotes.
-- `pytest` para rodar os testes.
+- `pyenv` ou `venv` para criar um ambiente virtual.
+- `make` (opcional, mas recomendado para linux).
 
 ## Como rodar o projeto
 

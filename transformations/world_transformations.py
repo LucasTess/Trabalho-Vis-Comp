@@ -1,5 +1,5 @@
 import numpy as np
-
+from numpy import pi
 from utils.coordinates import RotationMatrices
 
 def world_translation(x: float, y: float, z: float ) -> np.ndarray:
@@ -31,7 +31,7 @@ def world_rotation(eixo: str, theta: float) -> np.ndarray:
         np.ndarray: rotation matrix
     """
     
-    theta = theta * np.pi / 180
+    theta = theta * pi / 180
     
     rotation_matrices = RotationMatrices.from_theta(theta)
     rotation_matrix = getattr(rotation_matrices, eixo, None)

@@ -15,10 +15,6 @@ run:
 	@echo "Running app"
 	@python main.py
 
-test:
-	@echo "Running tests"
-	@pytest tests/test_.py
-
 check:
 	@echo "Everything is fine"
 	@echo "Python version is $(PYTHON_VERSION)"
@@ -28,7 +24,7 @@ install:
 	@pip install -r requirements.txt	
 
 install-package:
-	@echo "Installing package
+	@echo "Installing package"
 	@echo "installing $(package)"
 	@pip install $(package) && pip freeze | grep $(package) >> requirements.txt
 

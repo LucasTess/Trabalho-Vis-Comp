@@ -64,6 +64,10 @@ def projection_2d(
     print(f"Camera:\n{camera}")
     print(f"inv(Camera):\n{Cam_inv}")
     object_2d = MPI @ projection_matrix @ Cam_inv @ objeto
+
+    if object_2d[2, :].all() == 0:
+        object_2d[2, :] = 1
+    
     object_2d[0, :] = object_2d[0, :] / object_2d[2, :]
     object_2d[1, :] = object_2d[1, :] / object_2d[2, :]
     object_2d[2, :] = object_2d[2, :] / object_2d[2, :]

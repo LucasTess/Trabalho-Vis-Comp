@@ -31,8 +31,6 @@ def world_rotation(eixo: str, theta: float) -> np.ndarray:
         np.ndarray: rotation matrix
     """
     
-    theta = theta * pi / 180
-    
     rotation_matrices = RotationMatrices.from_theta(theta)
     rotation_matrix = getattr(rotation_matrices, eixo, None)
     

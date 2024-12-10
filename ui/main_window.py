@@ -14,7 +14,6 @@ from controllers import projection_2d, set_axes_equal
 from transformations import (cam_rotation, cam_translation, world_rotation,
                              world_translation)
 from utils import Aatrox, base_3d, cam_origem, draw_arrows, origem_3d, set_plot
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -22,7 +21,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Trabalho 1 de Visão Computacional João Gabriel e Lucas Tessari")
         self.setGeometry(100, 100,1280 , 720)
         self.setup_ui()
-
+    
     def set_variables(self):
         self.objeto_original = Aatrox
         self.objeto = self.objeto_original

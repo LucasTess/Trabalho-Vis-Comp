@@ -31,7 +31,7 @@ def cam_rotation(M_cam: np.ndarray, eixo: str, theta: float) -> np.ndarray:
     Returns:
         np.ndarray: Rotation matrix
     """
-    theta = theta*pi/180
+
     M_inv = np.linalg.inv(M_cam)
     R = world_rotation(eixo, theta)
     rotation_matrix = M_cam @ R @ M_inv

@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self.referencial = self.camera
         self.px_base = 1280
         self.px_altura = 720
-        self.dist_foc = 50
+        self.dist_foc = 10
         self.stheta = 0
         self.ox = self.px_base/2
         self.oy = self.px_altura/2
@@ -382,11 +382,9 @@ class MainWindow(QMainWindow):
     
     def posicionar_cam(self) -> None:
         """Set the camera to a specific position."""
-        T = world_translation(0, 0, 0)
+        T = world_translation(0, -200, 200)
         self.camera = T @ self.referencial
-        R = cam_rotation(self.camera, 'y', -90)
-        self.camera = R @ self.camera
-        R = cam_rotation(self.camera, 'z', 90)
+        R = cam_rotation(self.camera, 'x', -90)
         self.camera = R @ self.camera
         self.update_canvas()
         return
